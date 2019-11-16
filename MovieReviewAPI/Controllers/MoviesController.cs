@@ -9,6 +9,7 @@ using MovieReviewAPI.Models;
 
 namespace MovieReviewAPI.Controllers
 {
+    
     [Route("api/[controller]")]
     [ApiController]
     public class MoviesController : ControllerBase

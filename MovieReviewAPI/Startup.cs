@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -11,7 +12,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using MovieReviewAPI.DTOModels;
 using MovieReviewAPI.Models;
+using MovieReviewAPI.Services;
 
 namespace MovieReviewAPI
 {
@@ -26,12 +29,12 @@ namespace MovieReviewAPI
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
-        {
-            
+        {            
             services.AddDbContext<MovieAPIDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("AWSConnection")));
+                options.UseSqlServer(Configuration.GetConnectionString("AWSConnection")));
 
+            //services.AddAutoMapper(typeof(MappingProfile));
+            services.AddTransient<IMovieRepository, MovieRepository>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }

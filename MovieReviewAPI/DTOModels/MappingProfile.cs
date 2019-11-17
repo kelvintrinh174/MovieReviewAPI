@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using MovieReviewAPI.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,9 +11,9 @@ namespace MovieReviewAPI.DTOModels
     {
         public MappingProfile()
         {
-            //CreateMap<Cities, CityWithoutPointsOfInterestDto>();
-            //CreateMap<Movie, MovieDto>();
-           // CreateMap<MovieComment, MovieDto>();
+ 
+            CreateMap<Movie, MovieDto>();
+            CreateMap<MovieComment, MovieDto>();
 
 
         }

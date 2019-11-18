@@ -14,7 +14,7 @@ namespace MovieReviewAPI.DTOModels
  
             CreateMap<Movie, MovieDto>();
             CreateMap<MovieComment, MovieDto>();
-
+            CreateMap<MovieDto, Movie>();
 
         }
 

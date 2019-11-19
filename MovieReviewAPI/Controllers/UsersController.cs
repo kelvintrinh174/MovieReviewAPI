@@ -9,7 +9,7 @@ using MovieReviewAPI.Models;
 
 namespace MovieReviewAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class UsersController : ControllerBase
     {
@@ -104,6 +104,11 @@ namespace MovieReviewAPI.Controllers
             return user;
         }
 
+        // Login User :TODO Cross check with front end
+        public User Login(User user) {
+            //Task<User> getUser = await _context.User.FindAsync(e => (e.UserName == user.UserName && e.Password == user.Password)).Result;
+            return _context.User.FirstAsync(e => (e.UserName == user.UserName && e.Password ==user.Password)).Result;
+        }
         private bool UserExists(int id)
         {
             return _context.User.Any(e => e.UserId == id);

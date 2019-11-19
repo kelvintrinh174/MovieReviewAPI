@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace MovieReviewAPI.Models
 {
@@ -6,6 +7,7 @@ namespace MovieReviewAPI.Models
     {
         public int MovieCommentId { get; set; }
         public string MovieTitle { get; set; }
+        [DataType(DataType.Date)]
         public DateTime DateCreated { get; set; }
         public string UserName { get; set; }
 

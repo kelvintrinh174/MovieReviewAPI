@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace MovieReviewAPI.Models
 {
@@ -7,6 +8,7 @@ namespace MovieReviewAPI.Models
     {
         public int MovieRatingId { get; set; }
         public int Rating { get; set; }
+        [DataType(DataType.Date)]
         public DateTime DateCreated { get; set; }
         public string UserName { get; set; }
         public int MovieId { get; set; }

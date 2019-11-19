@@ -25,9 +25,12 @@ namespace MovieReviewAPI.Services
 
 
         public async Task<Movie> GetMovieById(int? MovieId)
-        {           
+        {
             return await _context.Movie
+                                 .Include(c => c.MovieComment)
+                                 .Include(c => c.MovieRating)
                                  .SingleOrDefaultAsync(item => item.MovieId == MovieId.Value);
+                                 
 
         }
 

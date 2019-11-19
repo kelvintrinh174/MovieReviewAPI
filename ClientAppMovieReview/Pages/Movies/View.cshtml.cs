@@ -8,39 +8,46 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Configuration;
 using MovieReviewAPI.Models;
-using Newtonsoft.Json;
 
-namespace ClientAppMovieReview.Pages
+namespace ClientAppMovieReview.Pages.Movies
 {
-    public class IndexModel : PageModel
+    public class ViewModel : PageModel
     {
         private HttpClient _client = new HttpClient();
         private string _apiUrl;
-        public IEnumerable<Movie> Movies;
-        
-        public IndexModel(IConfiguration iConfiguration) {
+        [BindProperty]
+        public Movie movie { get; set; }
+        public ViewModel(IConfiguration iConfiguration)
+        {
             _apiUrl = iConfiguration.GetSection("ApiUrl").Value;
         }
-        public async Task OnGetAsync()
+        //https://localhost:44387/Movies/View?id=1
+        public async Task OnGetAsync(int? id)
         {
+            Console.WriteLine(id);
             _client.BaseAddress = new Uri(_apiUrl);
-            //_client.BaseAddress = new Uri("http://moviereviewapi-dev.us-east-1.elasticbeanstalk.com");
             _client.DefaultRequestHeaders.Accept.Clear();
             _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             try
             {
                 string json;
                 HttpResponseMessage response;
-                //get all items
-                response = await _client.GetAsync("/api/movies");
+                // get the specified item
+                //int id = 4;
+                //TodoItem item;
+                response = await _client.GetAsync("api/Movies/" + id);
 
                 if (response.IsSuccessStatusCode)
                 {
-                    json = await response.Content.ReadAsStringAsync();
-                    Movies = JsonConvert.DeserializeObject<IEnumerable<Movie>>(json);
+                    movie = await response.Content.ReadAsAsync<Movie>();
+                    //json = await response.Content.ReadAsStringAsync();
+                    //Console.WriteLine(json);
+                    //item = JsonConvert.DeserializeObject<TodoItem>(json);
+
+                    Console.WriteLine("The return TodoItem details:\n " + movie);
                 }
-                else
-                    Console.WriteLine("Internal Server error");
+
+                else Console.WriteLine("Internal Server error");
             }
             catch (Exception e)
             {

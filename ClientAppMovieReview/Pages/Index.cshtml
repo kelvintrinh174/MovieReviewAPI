@@ -4,7 +4,45 @@
     ViewData["Title"] = "Home page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<!-- Recently Added Movies-->
+<div class="container">
+    <div class="row">
+        <h1 style="width:100%;">Recently Added Movies</h1>
+        @foreach (var item in Model.Movies)
+        {
+            <div class="col-sm-4">
+                <div class="card" style="margin-bottom:20px;">
+                    <div class="card-body">
+                        <h5 class="card-title">@(item.MovieTitle)</h5>
+                        <p class="card-img"><img src="@(item.MovieImage)" alt="MovieImage" style="width:100%;" /></p>
+                        <p class="card-text"> @(item.Genre)</p>
+                        <p>@(item.MovieRating)</p>
+                        <a asp-page="/Movies/View" class="btn btn-sm btn-danger" asp-route-id="@item.MovieId">View movie</a>
+                        <!--<a class="btn btn-sm btn-danger" asp-controller="Movies" asp-action="Delete" asp-route-id="@item.MovieId">Delete</a>-->
+                    </div>
+                </div>
+            </div>
+        }
+        </div>
+</div>
+<!-- Movies List -->
+<div class="container">
+    <div class="row">
+        <h1 style="width:100%;">Movies List</h1>
+        @foreach (var item in Model.Movies)
+        {
+            <div class="col-sm-4">
+                <div class="card"  style="margin-bottom:20px;">
+                    <div class="card-body">
+                        <h5 class="card-title">@(item.MovieTitle)</h5>
+                        <p class="card-img"><img src="@(item.MovieImage)" alt="MovieImage" style="width:100%;" /></p>
+                        <p class="card-text"> @(item.Genre)</p>
+                        <p>@(item.MovieRating)</p>
+                        <a class="btn btn-sm btn-danger" asp-controller="Movies" asp-action="Details" asp-route-id="@item.MovieId">View movie</a>
+                        <!--<a class="btn btn-sm btn-danger" asp-controller="Movies" asp-action="Delete" asp-route-id="@item.MovieId">Delete</a>-->
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
 </div>

@@ -1,0 +1,71 @@
+﻿@page
+@model ClientAppMovieReview.Pages.Movies.ViewModel
+@{
+    ViewData["Title"] = "View";
+}
+
+<h1>View</h1>
+<div class="container">
+    <div class="row">
+        <div class="col-sm">
+            <dl class="row">
+                <dt class="col-sm-2">
+                   Movie Title
+                </dt>
+                <dd class="col-sm-10">
+                    @(Model.movie.MovieTitle)
+                </dd>
+                <dt class="col-sm-2">
+                    Genre
+                </dt>
+                <dd class="col-sm-10">
+                    @(Model.movie.Genre)
+                </dd>
+                <dt class="col-sm-2">
+                    Actors
+                </dt>
+                <dd class="col-sm-10">
+                    @(Model.movie.Actor)
+                </dd>
+                <dt class="col-sm-2">
+                    Image
+                </dt>
+                <dd class="col-sm-10">
+                    @(Model.movie.MovieImage)
+                </dd>
+                <dt class="col-sm-2">
+                    Video
+                </dt>
+                <dd class="col-sm-10">
+                    @(Model.movie.MovieVideo)
+                </dd>
+            </dl>
+            <div>
+                <a asp-controller="Home" asp-action="Index">Back to List</a>
+            </div>
+            <!--Rate Movie-->
+            <h3>Rate the Movie</h3>
+            <form id="RateMovie" asp-action="RateMovie">
+                <div class="form-group">
+                    <label class="control-label"></label>
+                    <input name="Rating" type="radio" value="1" />1
+                    <input name="Rating" type="radio" value="2" />2
+                    <input name="Rating" type="radio" value="3" />3
+                    <input name="Rating" type="radio" value="4" />4
+                    <input name="Rating" type="radio" value="5" />5
+                    <input type="hidden" value="@(Model.movie.MovieId)" name="MovieId" />
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" id="rate" value="Rate" class="btn btn-primary" />
+                </div>
+            </form>
+            <!--End Form Here-->
+        </div>
+        <!--<div class="col-sm">
+            <h3>Trailer </h3>
+            <video controls style="width:100%;"><source src="@(Model.movie.MovieVideo)" /></video>
+        </div>-->
+    </div>
+</div>
+

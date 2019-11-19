@@ -19,7 +19,7 @@ namespace MovieReviewAPI.Services
         public async Task<IEnumerable<Movie>> GetMovies()
         {
             List<Movie> list = await _context.Movie.ToListAsync();
-            list = list.OrderBy(x => x.DateCreated).ToList();
+            list = list.OrderByDescending(x => x.DateCreated).ToList();
             return list;
         }
 
@@ -29,9 +29,7 @@ namespace MovieReviewAPI.Services
             return await _context.Movie
                                  .Include(c => c.MovieComment)
                                  .Include(c => c.MovieRating)
-                                 .SingleOrDefaultAsync(item => item.MovieId == MovieId.Value);
-                                 
-
+                                 .SingleOrDefaultAsync(item => item.MovieId == MovieId.Value);                                
         }
 
         public async Task AddMovie(Movie movie)

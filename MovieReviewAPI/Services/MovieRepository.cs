@@ -18,7 +18,9 @@ namespace MovieReviewAPI.Services
 
         public async Task<IEnumerable<Movie>> GetMovies()
         {
-            return await _context.Movie.ToListAsync();
+            List<Movie> list = await _context.Movie.ToListAsync();
+            list = list.OrderBy(x => x.DateCreated).ToList();
+            return list;
         }
 
 

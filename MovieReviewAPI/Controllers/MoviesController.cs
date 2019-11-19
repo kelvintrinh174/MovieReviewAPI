@@ -16,13 +16,13 @@ namespace MovieReviewAPI.Controllers
     [ApiController]
     public class MoviesController : ControllerBase
     {
-        // private readonly MovieAPIDbContext _context;
+        //private readonly MovieAPIDbContext _context;
         private readonly IMovieRepository _movieRepository;
         private readonly IMapper _mapper;
 
         public MoviesController(IMovieRepository movieRepository,IMapper mapper)
         {
-            //_context = context;
+
             _movieRepository = movieRepository;
             _mapper = mapper;
         }
@@ -83,12 +83,14 @@ namespace MovieReviewAPI.Controllers
             return Ok();
         }
 
+
+      
+
         // POST: api/Movies
         [HttpPost]
         public async Task<ActionResult<Movie>> PostMovie(Movie movieDto)
         {
             if (movieDto == null) BadRequest();
-
             var movie = _mapper.Map<Movie>(movieDto);
             await _movieRepository.AddMovie(movie);
             return CreatedAtAction("GetMovie", new { id = movie.MovieId }, movie);

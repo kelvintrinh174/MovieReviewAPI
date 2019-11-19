@@ -102,5 +102,7 @@ namespace MovieReviewAPI.Models
         }
 
         public DbSet<MovieReviewAPI.Models.MovieComment> MovieComment { get; set; }
+
+        public DbSet<MovieReviewAPI.Models.User> User { get; set; }
     }
 }

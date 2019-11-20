@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using MovieReviewAPI.Models;
 
 namespace MovieReviewAPI.Models
 {
@@ -16,7 +17,7 @@ namespace MovieReviewAPI.Models
         }
 
         public virtual DbSet<Movie> Movie { get; set; }
-        public virtual DbSet<MovieComment> MovieComment { get; set; }
+        //public virtual DbSet<MovieComment> MovieComment { get; set; }
         public virtual DbSet<MovieRating> MovieRating { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -58,7 +59,7 @@ namespace MovieReviewAPI.Models
                     .HasMaxLength(500)
                     .IsUnicode(false);
             });
-
+            
             modelBuilder.Entity<MovieComment>(entity =>
             {
                 entity.Property(e => e.DateCreated).HasColumnType("smalldatetime");
@@ -78,6 +79,9 @@ namespace MovieReviewAPI.Models
                     .HasForeignKey(d => d.MovieId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Movie_Id");
+                entity.Property(e => e.Comment)
+                      .HasMaxLength(4000)
+                      .IsUnicode(false);
             });
 
             modelBuilder.Entity<MovieRating>(entity =>
@@ -96,5 +100,9 @@ namespace MovieReviewAPI.Models
                     .HasConstraintName("FK_MovieId");
             });
         }
+
+        public DbSet<MovieReviewAPI.Models.MovieComment> MovieComment { get; set; }
+
+        public DbSet<MovieReviewAPI.Models.User> User { get; set; }
     }
 }

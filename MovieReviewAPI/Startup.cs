@@ -32,10 +32,9 @@ namespace MovieReviewAPI
         {            
             services.AddDbContext<MovieAPIDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("AWSConnection")));
-
-            //services.AddAutoMapper(typeof(MappingProfile));
-            services.AddTransient<IMovieRepository, MovieRepository>();
-
+            services.AddScoped<IMovieRepository, MovieRepository>();
+            services.AddAutoMapper(typeof(MappingProfile));
+            
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 

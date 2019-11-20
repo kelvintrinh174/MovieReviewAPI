@@ -18,15 +18,18 @@ namespace MovieReviewAPI.Services
 
         public async Task<IEnumerable<Movie>> GetMovies()
         {
-            return await _context.Movie.ToListAsync();
+            List<Movie> list = await _context.Movie.ToListAsync();
+            list = list.OrderByDescending(x => x.DateCreated).ToList();
+            return list;
         }
 
 
         public async Task<Movie> GetMovieById(int? MovieId)
-        {           
+        {
             return await _context.Movie
-                                 .SingleOrDefaultAsync(item => item.MovieId == MovieId.Value);
-
+                                 .Include(c => c.MovieComment)
+                                 .Include(c => c.MovieRating)
+                                 .SingleOrDefaultAsync(item => item.MovieId == MovieId.Value);                                
         }
 
         public async Task AddMovie(Movie movie)

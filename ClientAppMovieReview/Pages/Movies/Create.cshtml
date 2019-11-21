@@ -1,0 +1,57 @@
+﻿@page
+@model ClientAppMovieReview.Pages.Movies.CreateModel
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Add Monthly Budget</h4>
+<hr />
+<div class="row">
+    <div class="col-md-8">
+        <img src="https://doughroller-wpengine.netdna-ssl.com/wp-content/uploads/2007/11/Budget-tools-2.jpg">
+    </div>
+    <div class="col-md-4">
+        <form method="post">
+            <!--div class="form-group">
+                <input asp-for="movie.MovieId" class="form-control" type="hidden" />
+                <span asp-validation-for="movie.MovieId" class="text-danger"></span>
+            </!--div>-->
+            <div class="form-group">
+                <label asp-for="movie.MovieTitle" class="control-label"></label>
+                <input asp-for="movie.MovieTitle" class="form-control" />
+                <span asp-validation-for="movie.MovieTitle" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="movie.MovieImage" class="control-label"></label>
+                <input asp-for="movie.MovieImage" class="form-control" />
+                <span asp-validation-for="movie.MovieImage" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="movie.Actor" class="control-label"></label>
+                <input asp-for="movie.Actor" class="form-control" />
+                <span asp-validation-for="movie.Actor" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="movie.Genre" class="control-label"></label>
+                <input asp-for="movie.Genre" class="form-control" />
+                <span asp-validation-for="movie.Genre" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="movie.MovieVideo" class="control-label"></label>
+                <input asp-for="movie.MovieVideo" class="form-control" />
+                <span asp-validation-for="movie.MovieVideo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="movie.DateReleased" class="control-label"></label>
+                <input asp-for="movie.DateReleased" class="form-control" />
+                <span asp-validation-for="movie.DateReleased" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-info" />
+                <a class="btn btn-danger" asp-action="Index">Back to List</a>
+            </div>
+        </form>
+    </div>
+</div>

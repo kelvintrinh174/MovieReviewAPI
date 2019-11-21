@@ -106,6 +106,7 @@ namespace MovieReviewAPI.Controllers
 
         [ApiExplorerSettings(IgnoreApi = true)]
         // Login User :TODO Cross check with front end
+        [HttpPost]
         public User Login(User user) {
             //Task<User> getUser = await _context.User.FindAsync(e => (e.UserName == user.UserName && e.Password == user.Password)).Result;
             return _context.User.FirstAsync(e => (e.UserName == user.UserName && e.Password ==user.Password)).Result;

@@ -1,0 +1,94 @@
+﻿@page
+@model ClientAppMovieReview.Pages.Movies.ViewModel
+@{
+    ViewData["Title"] = "View";
+}
+
+<h1>View</h1>
+<div class="container">
+    <div class="row">
+        <div class="col-sm">
+            <dl class="row">
+                <dt class="col-sm-2">
+                    Movie Title
+                </dt>
+                <dd class="col-sm-10">
+                    @(Model.movie.MovieTitle)
+                </dd>
+                <dt class="col-sm-2">
+                    Genre
+                </dt>
+                <dd class="col-sm-10">
+                    @(Model.movie.Genre)
+                </dd>
+                <dt class="col-sm-2">
+                    Actors
+                </dt>
+                <dd class="col-sm-10">
+                    @(Model.movie.Actor)
+                </dd>
+                <dt class="col-sm-2">
+                    Image
+                </dt>
+                <dd class="col-sm-10">
+                    @(Model.movie.MovieImage)
+                </dd>
+                <dt class="col-sm-2">
+                    Video
+                </dt>
+                <dd class="col-sm-10">
+                    @(Model.movie.MovieVideo)
+                </dd>
+            </dl>
+            <div>
+                <a asp-controller="Home" asp-action="Index">Back to List</a>
+            </div>
+            <!--Rate Movie-->
+            <h3>Rate the Movie</h3>
+            <form method="post">
+                <div class="form-group">
+                    <label class="control-label"></label>
+                    <input asp-for="rating.UserName" />
+                    <input asp-for="rating.MovieId" type="hidden" placeholder="movieid" value="@(Model.movie.MovieId)" />
+                    <input asp-for="rating.Rating" type="radio" value="1" />1
+                    <input asp-for="rating.Rating" type="radio" value="2" />2
+                    <input asp-for="rating.Rating" type="radio" value="3" />3
+                    <input asp-for="rating.Rating" type="radio" value="4" />4
+                    <input asp-for="rating.Rating" type="radio" value="5" />5
+                    <span asp-validation-for="rating.UserName" class="text-danger"></span>
+                    <span asp-validation-for="rating.MovieId" class="text-danger"></span>
+                    <span asp-validation-for="rating.Rating" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" class="btn btn-primary" />
+                </div>
+            </form>
+            <!--End Form Here-->
+            <!--Comment Movie-->
+            <h3>Write a Comment</h3>
+            <form method="post" asp-page-handler="comment">
+                <div class="form-group">
+                    <label class="control-label"></label>
+                    <input asp-for="movieComment.UserName" />
+                    <input asp-for="movieComment.MovieId" type="hidden" value="@(Model.movie.MovieId)" />
+                    <input asp-for="movieComment.MovieTitle" type="hidden" value="@(Model.movie.MovieTitle)" />
+                    <textarea asp-for="movieComment.Comment"></textarea>
+                    <span asp-validation-for="movieComment.UserName" class="text-danger"></span>
+                    <span asp-validation-for="movieComment.MovieId" class="text-danger"></span>
+                    <span asp-validation-for="movieComment.Comment" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" class="btn btn-primary" />
+                </div>
+            </form>
+            <!--End Form Here-->
+        </div>
+        <!--<div class="col-sm">
+            <h3>Trailer </h3>
+            <video controls style="width:100%;"><source src="@(Model.movie.MovieVideo)" /></video>
+        </div>-->
+    </div>
+</div>
+

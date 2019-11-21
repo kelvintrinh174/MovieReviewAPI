@@ -15,6 +15,7 @@ using Microsoft.Extensions.Options;
 using MovieReviewAPI.DTOModels;
 using MovieReviewAPI.Models;
 using MovieReviewAPI.Services;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace MovieReviewAPI
 {
@@ -36,11 +37,20 @@ namespace MovieReviewAPI
             services.AddAutoMapper(typeof(MappingProfile));
             
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddSwaggerGen(c => 
+            {
+                c.SwaggerDoc("v1", new Info { Title="My First API",Version="v1" });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            app.UseSwagger();
+            app.UseSwaggerUI(c => {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json","My first API");
+            });
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

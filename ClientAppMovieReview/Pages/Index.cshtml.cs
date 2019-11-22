@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using ClientAppMovieReview.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Configuration;
@@ -18,7 +19,10 @@ namespace ClientAppMovieReview.Pages
         private string _apiUrl;
         private string _apiKey;
         public IEnumerable<Movie> Movies;
-        
+
+        [BindProperty]
+        public SearchModel searchModel { get; set; }
+
         public IndexModel(IConfiguration iConfiguration) {
             _apiUrl = iConfiguration.GetSection("ApiUrl").Value;
             _apiKey = iConfiguration.GetSection("ApiKey").Value;

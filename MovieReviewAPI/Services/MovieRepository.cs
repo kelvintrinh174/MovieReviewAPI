@@ -7,7 +7,7 @@ using MovieReviewAPI.Models;
 
 namespace MovieReviewAPI.Services
 {
-    public class MovieRepository : IMovieRepository
+    public class MovieRepository : IMovieRepository<Movie>
     {
         private readonly MovieAPIDbContext _context;
 
@@ -16,15 +16,18 @@ namespace MovieReviewAPI.Services
             _context = context;
         }
 
-        public async Task<IEnumerable<Movie>> GetMovies()
+        public async Task<IEnumerable<Movie>> GetAll()
         {
-            List<Movie> list = await _context.Movie.ToListAsync();
-            list = list.OrderByDescending(x => x.DateCreated).ToList();
-            return list;
+            List<Movie> list = await _context.Movie
+                                                .Include(c => c.MovieRating)
+                                                .Include(c => c.MovieComment)
+                                                .ToListAsync();
+            
+            return list.OrderByDescending(x => x.DateCreated).ToList();
         }
 
 
-        public async Task<Movie> GetMovieById(int? MovieId)
+        public async Task<Movie> GetById(int? MovieId)
         {
             return await _context.Movie
                                  .Include(c => c.MovieComment)
@@ -32,13 +35,13 @@ namespace MovieReviewAPI.Services
                                  .SingleOrDefaultAsync(item => item.MovieId == MovieId.Value);                                
         }
 
-        public async Task AddMovie(Movie movie)
+        public async Task Add(Movie movie)
         {
             _context.Movie.Add(movie);
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteMovie(int movieId)
+        public async Task Delete(int movieId)
         {
             var movie = await _context.Movie.FindAsync(movieId);
             if(movie != null)
@@ -50,12 +53,12 @@ namespace MovieReviewAPI.Services
         }
 
 
-        public async Task<bool> MovieExists(int movieId)
+        public async Task<bool> isExists(int movieId)
         {
             return await _context.Movie.AnyAsync<Movie>(c => c.MovieId == movieId);
         }
      
-        public async Task UpdateMovie(Movie movie)
+        public async Task Update(Movie movie)
         {
             // _context.Update(movie);
             _context.Entry(movie).State = EntityState.Modified;

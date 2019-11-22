@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace MovieReviewAPI.Services
 {
-    public interface IMovieRepository
+    public interface IMovieRepository<E>
     {
-        Task<bool> MovieExists(int movieId);
-        Task<IEnumerable<Movie>> GetMovies();
-        Task<Movie> GetMovieById(int? movieId);
-        Task UpdateMovie(Movie movie);
-        Task AddMovie(Movie movie);
-        Task DeleteMovie(int movieId);
+        Task<bool> isExists(int Id);
+        Task<IEnumerable<E>> GetAll();
+        Task<E> GetById(int? Id);
+        Task Update(E e);
+        Task Add(E e);
+        Task Delete(int Id);
     }
 }

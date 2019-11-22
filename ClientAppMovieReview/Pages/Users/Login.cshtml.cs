@@ -57,6 +57,7 @@ namespace ClientAppMovieReview.Pages.Users
                     HttpContext.Session.SetString("isLoggedIn", "true");
                     _loggedInUser = JsonConvert.DeserializeObject<User>(HttpContext.Session.GetString("userString"));
                     HttpContext.Session.SetString("userRole", _loggedInUser.Role);
+                    HttpContext.Session.SetString("userName", _loggedInUser.UserName);
                 }
                 TempData["successmsg"] = "User has been loggedIn Successfully";
                 return RedirectToPage("/Index");

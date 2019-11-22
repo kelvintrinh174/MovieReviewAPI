@@ -33,13 +33,13 @@ namespace MovieReviewAPI
         {            
             services.AddDbContext<MovieAPIDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("AWSConnection")));
-            services.AddScoped<IMovieRepository, MovieRepository>();
+            services.AddScoped<IMovieRepository<Movie>, MovieRepository>();
             services.AddAutoMapper(typeof(MappingProfile));
             
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddSwaggerGen(c => 
             {
-                c.SwaggerDoc("v1", new Info { Title="My First API",Version="v1" });
+                c.SwaggerDoc("v1", new Info { Title="Movie Review APIs",Version="v1" });
             });
         }
 
@@ -48,7 +48,7 @@ namespace MovieReviewAPI
         {
             app.UseSwagger();
             app.UseSwaggerUI(c => {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json","My first API");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json","Movie Review APIs");
             });
 
             if (env.IsDevelopment())

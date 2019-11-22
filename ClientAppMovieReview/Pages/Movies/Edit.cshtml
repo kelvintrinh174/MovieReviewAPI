@@ -1,0 +1,51 @@
+﻿@page
+@model ClientAppMovieReview.Pages.Movies.EditModel
+@{
+    ViewData["Title"] = "Edit";
+}
+
+    <div class="row">
+        <div class="col-md-8">
+            <img src="~/images/logo-red.jpg" alt="MovieMania" />
+        </div>
+        <div class="col-md-4">
+            <h4>Edit Movie</h4>
+            <form method="post">
+                <input type="hidden" asp-for="movie.MovieId" class="form-control" value="@(Model.movie.MovieId)" />
+                <div class="form-group">
+                    <label asp-for="movie.MovieTitle" class="control-label"></label>
+                    <input asp-for="movie.MovieTitle" class="form-control" value="@(Model.movie.MovieTitle)" />
+                    <span asp-validation-for="movie.MovieTitle" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="movie.MovieImage" class="control-label"></label>
+                    <input asp-for="movie.MovieImage" class="form-control" value="@(Model.movie.MovieImage)" />
+                    <span asp-validation-for="movie.MovieImage" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="movie.Actor" class="control-label"></label>
+                    <input asp-for="movie.Actor" class="form-control" value="@(Model.movie.Actor)" />
+                    <span asp-validation-for="movie.Actor" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="movie.Genre" class="control-label"></label>
+                    <input asp-for="movie.Genre" class="form-control" value="@(Model.movie.Genre)" />
+                    <span asp-validation-for="movie.Genre" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="movie.MovieVideo" class="control-label"></label>
+                    <input asp-for="movie.MovieVideo" class="form-control" value="@(Model.movie.MovieVideo)" />
+                    <span asp-validation-for="movie.MovieVideo" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="movie.DateReleased" class="control-label"></label>
+                    <input asp-for="movie.DateReleased" class="form-control" value="@(Model.movie.DateReleased)" />
+                    <span asp-validation-for="movie.DateReleased" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Update" class="btn btn-info" />
+                </div>
+            </form>
+        </div>
+    </div>
+

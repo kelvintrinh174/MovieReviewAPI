@@ -19,6 +19,7 @@ namespace ClientAppMovieReview.Pages.Users
         private HttpClient _client = new HttpClient();
         private string _apiUrl; 
         private string _apiKey;
+        public User _loggedInUser;
 
         [BindProperty]
         public User user { get; set; }
@@ -53,15 +54,22 @@ namespace ClientAppMovieReview.Pages.Users
                 if (response.StatusCode == System.Net.HttpStatusCode.OK)
                 {
                     HttpContext.Session.SetString("userString", json);
+                    HttpContext.Session.SetString("isLoggedIn", "true");
+                    _loggedInUser = JsonConvert.DeserializeObject<User>(HttpContext.Session.GetString("userString"));
+                    HttpContext.Session.SetString("userRole", _loggedInUser.Role);
                 }
                 TempData["successmsg"] = "User has been loggedIn Successfully";
                 return RedirectToPage("/Index");
             }
             catch (Exception e)
             {
-                TempData["errormsg"] = e.Message;
+                TempData["errormsg"] = "Invalid Credentials";
                 return RedirectToPage("/Users/Login");
             }
+        }
+        public IActionResult OnGetLogout() {
+            HttpContext.Session.Clear();
+            return RedirectToPage("/Users/Login");
         }
     }
 }

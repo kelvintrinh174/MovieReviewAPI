@@ -69,7 +69,7 @@ namespace ClientAppMovieReview.Pages.Movies
             }
             catch (Exception e)
             {
-                TempData["errormsg"] = e.Message;
+                TempData["errormsg"] = e.Message.ToString();
             }
         }
 

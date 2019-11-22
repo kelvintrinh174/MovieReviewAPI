@@ -13,52 +13,69 @@ using Newtonsoft.Json;
 
 namespace ClientAppMovieReview.Pages.Movies
 {
-    public class CreateModel : PageModel
+    public class EditModel : PageModel
     {
         private HttpClient _client = new HttpClient();
         private string _apiUrl;
         private string _apiKey;
         [BindProperty]
         public Movie movie { get; set; }
-
-        public CreateModel(IConfiguration iConfiguration)
+        public EditModel(IConfiguration iConfiguration)
         {
             _apiUrl = iConfiguration.GetSection("ApiUrl").Value;
             _apiKey = iConfiguration.GetSection("ApiKey").Value;
         }
-        public void OnGet()
+        public async Task OnGetAsync(int? id)
         {
-
-        }
-        public async Task OnPostAsync() {
             _client.BaseAddress = new Uri(_apiUrl);
             _client.DefaultRequestHeaders.Accept.Clear();
             _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             _client.DefaultRequestHeaders.Add("x-apikey", _apiKey);
-            try {
+            try
+            {
                 string json;
                 HttpResponseMessage response;
-               // movie.DateCreated = DateTime.Now.ToString("yyyy/MM/dd");
-                Console.WriteLine(movie.DateReleased.Date);
-                DateTime released = (DateTime)movie.DateReleased;
-                ////add a new item
-                movie.DateCreated = DateTime.Now.Date;
-                movie.DateReleased = movie.DateReleased.Date;
+                // get the specified item
+                response = await _client.GetAsync("moviereview/api/Movies/" + id);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    movie = await response.Content.ReadAsAsync<Movie>();
+                    //rating.MovieId = movie.MovieId;
+                }
+
+                else Console.WriteLine("Internal Server error");
+            }
+            catch (Exception e)
+            {
+                TempData["errormsg"] = e.Message;
+            }
+        }
+        public async Task OnPostAsync()
+        {
+            _client.BaseAddress = new Uri(_apiUrl);
+            _client.DefaultRequestHeaders.Accept.Clear();
+            _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            _client.DefaultRequestHeaders.Add("x-apikey", _apiKey);
+            try
+            {
+                string json;
+                HttpResponseMessage response;
                 json = JsonConvert.SerializeObject(movie);
                 StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
-                response = await _client.PostAsync("moviereview/api/Movies", content);
+                response = await _client.PutAsync("moviereview/api/Movies/"+movie.MovieId, content);
+
+                //   response = await client.PostAsJsonAsync("/api/TodoItems", item);
 
                 Console.WriteLine($"status from POST {response.StatusCode}");
                 response.EnsureSuccessStatusCode();
                 Console.WriteLine($"added resource at {response.Headers.Location}");
                 json = await response.Content.ReadAsStringAsync();
-                TempData["successmsg"] = "Movie has been added Successfully";
-
+                TempData["successmsg"] = "Movie has been updated Successfully";
                 Console.WriteLine("todo item has been inserted " + json);
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
                 TempData["errormsg"] = e.Message;
             }
         }

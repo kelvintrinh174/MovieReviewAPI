@@ -59,9 +59,13 @@ namespace ClientAppMovieReview.Pages.Users
             }
             catch (Exception e)
             {
-                TempData["errormsg"] = e.Message;
+                TempData["errormsg"] = "Invalid Credentials";
                 return RedirectToPage("/Users/Login");
             }
+        }
+        public IActionResult OnGetLogout() {
+            HttpContext.Session.Clear();
+            return RedirectToPage("/Users/Login");
         }
     }
 }

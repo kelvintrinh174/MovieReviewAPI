@@ -18,7 +18,10 @@ namespace MovieReviewAPI.Services
 
         public async Task<IEnumerable<Movie>> GetAll()
         {
-            List<Movie> list = await _context.Movie.ToListAsync();
+            List<Movie> list = await _context.Movie
+                                                .Include(c => c.MovieRating)
+                                                .Include(c => c.MovieComment)
+                                                .ToListAsync();
             
             return list.OrderByDescending(x => x.DateCreated).ToList();
         }

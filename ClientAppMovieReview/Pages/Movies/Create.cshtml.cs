@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Configuration;
@@ -41,6 +43,7 @@ namespace ClientAppMovieReview.Pages.Movies
                // movie.DateCreated = DateTime.Now.ToString("yyyy/MM/dd");
                 Console.WriteLine(movie.DateReleased.Date);
                 DateTime released = (DateTime)movie.DateReleased;
+                Console.WriteLine(movie);
                 ////add a new item
                 movie.DateCreated = DateTime.Now.Date;
                 movie.DateReleased = movie.DateReleased.Date;
@@ -61,6 +64,27 @@ namespace ClientAppMovieReview.Pages.Movies
                 Console.WriteLine(e.Message);
                 TempData["errormsg"] = e.Message;
             }
+        }
+        public async Task OnPostUploadAsync(IFormFile formFile)
+        {
+            long size = formFile.Length;
+
+                if (formFile.Length > 0)
+                {
+                    var filePath = Path.GetTempFileName();
+                Console.WriteLine(filePath);
+
+                    using (var stream = System.IO.File.Create(filePath))
+                    {
+                        await formFile.CopyToAsync(stream);
+                    }
+                Console.WriteLine(formFile);
+            }
+            
+
+            // Process uploaded files
+            // Don't rely on or trust the FileName property without validation.
+
         }
     }
 }

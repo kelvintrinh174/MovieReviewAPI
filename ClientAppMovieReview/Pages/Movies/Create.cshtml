@@ -11,12 +11,17 @@
     </div>
     <div class="col-md-4">
         <h4>Add Movie</h4>
-        <form method="post">
+        <form method="post" enctype="multipart/form-data">
             <div class="form-group">
                 <label asp-for="movie.MovieTitle" class="control-label"></label>
                 <input asp-for="movie.MovieTitle" class="form-control" />
                 <span asp-validation-for="movie.MovieTitle" class="text-danger"></span>
             </div>
+            <!--<div class="form-group">
+                <label asp-for="movie.imageFile" class="control-label"></label>
+                <input asp-for="movie.imageFile" type="file" class="form-control" />
+                <span asp-validation-for="movie.imageFile" class="text-danger"></span>
+            </div>-->
             <div class="form-group">
                 <label asp-for="movie.MovieImage" class="control-label"></label>
                 <input asp-for="movie.MovieImage" class="form-control" />

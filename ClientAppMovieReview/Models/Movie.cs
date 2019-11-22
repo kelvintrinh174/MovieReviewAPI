@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace MovieReviewAPI.Models
@@ -24,6 +26,9 @@ namespace MovieReviewAPI.Models
         //public DateTime ReleasedOn { get; set; }
         public string Genre { get; set; }
         public string Actor { get; set; }
+        /*
+        [DisplayName("Image")]
+        public IFormFile imageFile { get; set; } */
         public string MovieImage { get; set; }
         public string MovieVideo { get; set; }
 

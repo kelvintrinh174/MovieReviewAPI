@@ -17,12 +17,11 @@ namespace MovieReviewAPI.Controllers
     public class MoviesController : ControllerBase
     {
         //private readonly MovieAPIDbContext _context;
-        private readonly IMovieRepository _movieRepository;
+        private readonly IMovieRepository<Movie> _movieRepository;
         private readonly IMapper _mapper;
 
-        public MoviesController(IMovieRepository movieRepository,IMapper mapper)
+        public MoviesController(IMovieRepository<Movie> movieRepository,IMapper mapper)
         {
-
             _movieRepository = movieRepository;
             _mapper = mapper;
         }
@@ -31,7 +30,7 @@ namespace MovieReviewAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Movie>>> GetMovie()
         {
-            var movie = await _movieRepository.GetMovies();
+            var movie = await _movieRepository.GetAll();
             var results = _mapper.Map<IEnumerable<MovieDto>>(movie);
                
             return Ok(results);
@@ -41,7 +40,7 @@ namespace MovieReviewAPI.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Movie>> GetMovie(int id)
         {
-            var movie = await _movieRepository.GetMovieById(id);
+            var movie = await _movieRepository.GetById(id);
 
             if (movie == null)
             {
@@ -64,9 +63,9 @@ namespace MovieReviewAPI.Controllers
            
             try
             {
-               var movie = await _movieRepository.GetMovieById(id);
+               var movie = await _movieRepository.GetById(id);
                _mapper.Map(movieDto,movie);
-               await _movieRepository.UpdateMovie(movie); 
+               await _movieRepository.Update(movie); 
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -92,7 +91,7 @@ namespace MovieReviewAPI.Controllers
         {
             if (movieDto == null) BadRequest();
             var movie = _mapper.Map<Movie>(movieDto);
-            await _movieRepository.AddMovie(movie);
+            await _movieRepository.Add(movie);
             return CreatedAtAction("GetMovie", new { id = movie.MovieId }, movie);
         }
 
@@ -100,20 +99,20 @@ namespace MovieReviewAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<Movie>> DeleteMovie(int id)
         {
-            var movie = _movieRepository.GetMovieById(id);
+            var movie = _movieRepository.GetById(id);
             if (movie == null)
             {
                 return NotFound();
             }
             //var movie = _mapper.Map<Movie>(movieDt);
-            await _movieRepository.DeleteMovie(id);
+            await _movieRepository.Delete(id);
 
             return Ok();
         }
 
         private async Task<bool> MovieExists(int id)
         {           
-            return await _movieRepository.MovieExists(id);
+            return await _movieRepository.isExists(id);
         }
     
     }

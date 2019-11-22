@@ -8,7 +8,7 @@ namespace MovieReviewAPI.Models
     {
         public Movie()
         {
-            MovieComment = new HashSet<MovieComment>();
+          //  MovieComment = new HashSet<MovieComment>();
             MovieRating = new HashSet<MovieRating>();
         }
 
@@ -27,7 +27,8 @@ namespace MovieReviewAPI.Models
         public string MovieImage { get; set; }
         public string MovieVideo { get; set; }
 
-        public virtual ICollection<MovieComment> MovieComment { get; set; }
+        public virtual List<MovieComment> MovieComment { get; set; }
+        //public virtual ICollection<MovieComment> MovieComment { get; set; }
         public virtual ICollection<MovieRating> MovieRating { get; set; }
     }
 }

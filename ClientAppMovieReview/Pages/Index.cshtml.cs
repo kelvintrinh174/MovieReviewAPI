@@ -16,10 +16,12 @@ namespace ClientAppMovieReview.Pages
     {
         private HttpClient _client = new HttpClient();
         private string _apiUrl;
+        private string _apiKey;
         public IEnumerable<Movie> Movies;
         
         public IndexModel(IConfiguration iConfiguration) {
             _apiUrl = iConfiguration.GetSection("ApiUrl").Value;
+            _apiKey = iConfiguration.GetSection("ApiKey").Value;
         }
         public async Task OnGetAsync()
         {
@@ -27,12 +29,13 @@ namespace ClientAppMovieReview.Pages
             //_client.BaseAddress = new Uri("http://moviereviewapi-dev.us-east-1.elasticbeanstalk.com");
             _client.DefaultRequestHeaders.Accept.Clear();
             _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            _client.DefaultRequestHeaders.Add("x-apikey", _apiKey);
             try
             {
                 string json;
                 HttpResponseMessage response;
                 //get all items
-                response = await _client.GetAsync("/api/movies");
+                response = await _client.GetAsync("moviereview/api/movies");
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -46,6 +49,11 @@ namespace ClientAppMovieReview.Pages
             {
                 Console.WriteLine(e.Message);
             }
+        }
+
+        private void CleanTempData() {
+           /* TempData.Remove("successmsg");
+            TempData.Remove("errormsg"); */
         }
     }
 }

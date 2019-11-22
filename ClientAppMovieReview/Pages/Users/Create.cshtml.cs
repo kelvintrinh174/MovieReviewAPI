@@ -17,21 +17,24 @@ namespace ClientAppMovieReview.Pages.Users
     {
         private HttpClient _client = new HttpClient();
         private string _apiUrl;
+        private string _apiKey;
         [BindProperty]
         public User user { get; set; }
         public CreateModel(IConfiguration iConfiguration)
         {
             _apiUrl = iConfiguration.GetSection("ApiUrl").Value;
+            _apiKey = iConfiguration.GetSection("ApiKey").Value;
         }
         public void OnGet()
         {
 
         }
-        public async Task OnPostAsync()
+        public async Task<IActionResult> OnPostAsync()
         {
             _client.BaseAddress = new Uri(_apiUrl);
             _client.DefaultRequestHeaders.Accept.Clear();
             _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            _client.DefaultRequestHeaders.Add("x-apikey", _apiKey);
             try
             {
                 string json;
@@ -40,7 +43,7 @@ namespace ClientAppMovieReview.Pages.Users
                 user.Role = "admin";
                 json = JsonConvert.SerializeObject(user);
                 StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
-                response = await _client.PostAsync("api/Users/PostUser", content);
+                response = await _client.PostAsync("moviereview/api/Users/PostUser", content);
 
                 //   response = await client.PostAsJsonAsync("/api/TodoItems", item);
 
@@ -48,12 +51,14 @@ namespace ClientAppMovieReview.Pages.Users
                 response.EnsureSuccessStatusCode();
                 Console.WriteLine($"added resource at {response.Headers.Location}");
                 json = await response.Content.ReadAsStringAsync();
-
-                Console.WriteLine("todo item has been inserted " + json);
+                TempData["successmsg"] = "User has been Added Successfully";
+                return RedirectToPage("/Users/Login");
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
+                TempData["errormsg"] = e.Message;
+                return RedirectToPage("/Users/Create");
             }
         }
     }

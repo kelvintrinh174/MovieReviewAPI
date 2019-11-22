@@ -13,7 +13,7 @@
               asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute"
               crossorigin="anonymous"
-              integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"/>
+              integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" />
     </environment>
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
@@ -37,6 +37,15 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-page="/Movies/Create">Add Movie</a>
                         </li>
+                        <li class="nav-item float-right">
+                            <a class="nav-link text-dark" asp-area="" asp-page="/Users/Create">Sign Up</a>
+                        </li>
+                        <li class="nav-item float-right">
+                            <a class="nav-link text-dark" asp-area="" asp-page="/Users/Login">Log In</a>
+                        </li>
+                        <li class="nav-item float-right">
+                            <a class="nav-link text-dark" asp-area="" asp-page="/Users/Login">Log Out</a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -44,6 +53,7 @@
     </header>
     <div class="container">
         <partial name="_CookieConsentPartial" />
+        <partial name="_MessagePartial"/>
         <main role="main" class="pb-3">
             @RenderBody()
         </main>

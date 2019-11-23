@@ -10,6 +10,9 @@ namespace MovieReviewAPI.Services
     {
         Task<bool> isExists(int Id);
         Task<IEnumerable<E>> GetAll();
+
+        Task<IEnumerable<E>> GetByTitle(string movieTitle);
+        Task<IEnumerable<E>> GetByActor(string movieActor);
         Task<E> GetById(int? Id);
         Task Update(E e);
         Task Add(E e);

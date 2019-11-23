@@ -40,10 +40,20 @@ namespace MovieReviewAPI.Services
             return list.OrderByDescending(x => x.DateCreated).ToList();
         }
 
+        public Task<IEnumerable<MovieComment>> GetByActor(string movieActor)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<MovieComment> GetById(int? Id)
         {
             return await _context.MovieComment
                                 .SingleOrDefaultAsync(item => item.MovieCommentId == Id.Value);
+        }
+
+        public Task<IEnumerable<MovieComment>> GetByTitle(string movieTitle)
+        {
+            throw new NotImplementedException();
         }
 
         public async Task<bool> isExists(int Id)

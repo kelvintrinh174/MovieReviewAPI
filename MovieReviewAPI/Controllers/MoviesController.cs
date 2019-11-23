@@ -18,6 +18,7 @@ namespace MovieReviewAPI.Controllers
     {
         //private readonly MovieAPIDbContext _context;
         private readonly IMovieRepository<Movie> _movieRepository;
+        //private readonly MovieRepository repository;
         private readonly IMapper _mapper;
 
         public MoviesController(IMovieRepository<Movie> movieRepository,IMapper mapper)
@@ -33,6 +34,24 @@ namespace MovieReviewAPI.Controllers
             var movie = await _movieRepository.GetAll();
             var results = _mapper.Map<IEnumerable<MovieDto>>(movie);
                
+            return Ok(results);
+        }
+
+        [HttpGet("searchTitle/{movieTitle}")]
+        public async Task<ActionResult<IEnumerable<Movie>>> GetMovieByTitle(string movieTitle)
+        {
+            var movie = await _movieRepository.GetByTitle(movieTitle);
+            var results = _mapper.Map<IEnumerable<MovieDto>>(movie);
+
+            return Ok(results);
+        }
+
+        [HttpGet("searchActor/{movieActor}")]
+        public async Task<ActionResult<IEnumerable<Movie>>> GetMovieByActor(string movieActor)
+        {
+            var movie = await _movieRepository.GetByActor(movieActor);
+            var results = _mapper.Map<IEnumerable<MovieDto>>(movie);
+
             return Ok(results);
         }
 

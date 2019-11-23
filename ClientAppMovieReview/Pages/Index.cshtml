@@ -60,6 +60,13 @@
 <div class="container">
     <div class="row">
         <h1 style="width:100%;">Movies List</h1>
+        <div class="active-pink-3 active-pink-4 mb-4">
+            <form asp-page-handler="search">
+                <input class="form-control" name="" type="text" placeholder="Search" />
+                <input type="submit" class="btn btn-outline-primary" value="Search"/>
+            </form>
+        </div>
+        
         @foreach (var item in Model.Movies)
         {
             <div class="col-sm-4">

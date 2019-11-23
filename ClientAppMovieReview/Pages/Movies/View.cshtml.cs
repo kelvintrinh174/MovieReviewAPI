@@ -27,7 +27,6 @@ namespace ClientAppMovieReview.Pages.Movies
         public MovieRating rating { get; set; }
         [BindProperty]
         public MovieComment movieComment { get; set; }
-
         public ViewModel(IConfiguration iConfiguration)
         {
             _apiUrl = iConfiguration.GetSection("ApiUrl").Value;

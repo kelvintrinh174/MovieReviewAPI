@@ -2,14 +2,21 @@
 @model ClientAppMovieReview.Pages.Movies.ViewModel
 @{
     ViewData["Title"] = "View";
+    var EmbeddedUrl="";
+    if (Model.movie.MovieVideo != null)
+    {
+        var videoUrl = Model.movie.MovieVideo.Split("?v=");
+        var videoEmbedId = videoUrl[1];
+        EmbeddedUrl = "https://www.youtube.com/embed/" + videoEmbedId;
+    }
+
 }
 
-    <h1>View</h1>
+    
 <div class="container">
     <div class="row">
         <div class="col-sm">
-            <!-- Movie Detail Here -->
-            
+            <h3>Movie Detail</h3>
             <dl class="row">
                 <dt class="col-sm-2">
                     Movie Title
@@ -29,19 +36,19 @@
                 <dd class="col-sm-10">
                     @(Model.movie.Actor)
                 </dd>
-                <dt class="col-sm-2">
-                    Image
-                </dt>
-                <dd class="col-sm-10">
-                    @(Model.movie.MovieImage)
-                </dd>
-                <dt class="col-sm-2">
-                    Video
-                </dt>
-                <dd class="col-sm-10">
-                    @(Model.movie.MovieVideo)
-                </dd>
             </dl>
+        </div>
+        <div class="col-sm">
+            <h3>Trailer </h3>
+            <iframe width="500" height="300" src="@(EmbeddedUrl)" frameborder="0"
+                    allowfullscreen></iframe>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm">
+            <!-- Movie Detail Here -->
+            
+            
             
             @if (Model._loggedInUser == null)
             {
@@ -130,11 +137,7 @@
             </div>
             <!--List Comments End-->
         </div>
-        <!--<div class="col-sm">
-            <h3>Trailer </h3>
-            <video controls style="width:100%;"><source src="@(Model.movie.MovieVideo)" /></video>
-        </div>-->
-    </div>
+       </div>
 </div>
 
 <style>

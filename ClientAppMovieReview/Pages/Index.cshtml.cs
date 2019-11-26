@@ -20,8 +20,6 @@ namespace ClientAppMovieReview.Pages
         private string _apiKey;
         public IEnumerable<Movie> Movies;
 
-        [BindProperty]
-        public SearchModel searchModel { get; set; }
 
         public IndexModel(IConfiguration iConfiguration) {
             _apiUrl = iConfiguration.GetSection("ApiUrl").Value;
@@ -30,7 +28,7 @@ namespace ClientAppMovieReview.Pages
         public async Task OnGetAsync()
         {
             _client.BaseAddress = new Uri(_apiUrl);
-            //_client.BaseAddress = new Uri("http://moviereviewapi-dev.us-east-1.elasticbeanstalk.com");
+         
             _client.DefaultRequestHeaders.Accept.Clear();
             _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             _client.DefaultRequestHeaders.Add("x-apikey", _apiKey);

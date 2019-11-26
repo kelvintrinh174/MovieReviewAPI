@@ -12,7 +12,7 @@
         <h1 style="width:100%;">Recently Added Movies</h1>
         @{  
             int i = 0;
-            foreach (var item in Model.Movies)
+            foreach (var item in Model.LatestMovies)
             {
                 
                 <div class="col-sm-4">
@@ -59,8 +59,23 @@
 <!-- Movies List -->
 <div class="container">
     <div class="row">
-        <h1 style="width:100%;">Movies List</h1>
-        
+        <div class="col-sm-6">
+            <h1 style="width:100%;">Movies List</h1>
+        </div>
+        <div class="col-sm-6 active-pink-3 active-pink-4 mb-4">
+            <form asp-page-handler="search" method="post" style="float:right;">
+                <select name="type" class="custom-field" required>
+                    <option value="">Select Type</option>
+                    <option value="title">Title</option>
+                    <option value="actor">Actor</option>
+                </select>
+                <input class="custom-field" name="keyword" type="text" placeholder="Keyword" required />
+                <input type="submit" class="btn btn-outline-primary custom-btn" value="Search" />
+                <a asp-page="/" class="btn btn-outline-primary custom-btn">Reset</a>
+            </form>
+        </div>
+    </div>
+    <div class="row">
         @foreach (var item in Model.Movies)
         {
             <div class="col-sm-4">
@@ -88,10 +103,28 @@
                             <span class="text-secondary">@averageRating stars</span>
                             <span class="text-secondary float-right">@item.MovieComment.Count comments</span>
                         </p>
-                        <a class="btn btn-sm btn-danger" asp-controller="Movies" asp-action="Details" asp-route-id="@item.MovieId">View movie</a>
+                        <a asp-page="/Movies/View" class="btn btn-sm btn-danger" asp-route-id="@item.MovieId">View movie</a>
                     </div>
                 </div>
             </div>
         }
     </div>
 </div>
+<style>
+    .custom-field {
+        height: calc(1.5em + 0.75rem + 2px);
+        padding: 0.375rem 0.75rem;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.5;
+        color: #495057;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid #ced4da;
+        border-radius: 0.25rem;
+        transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    }
+    .custom-btn {
+        vertical-align:bottom !important;
+    }
+</style>

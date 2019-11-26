@@ -75,10 +75,21 @@ namespace MovieReviewAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<MovieRating>> PostMovieRating(MovieRating movieRating)
         {
+            //find existing movierating with username and movieId
+            var movie = await FindMovieRatingAndUser(movieRating.UserName, movieRating.MovieId);
+            if (movie != null)
+            {
+                //Update rating if exists
+                //movieRating.MovieRatingId = movie.MovieRatingId;
+                _context.Update(movie);
+                await _context.SaveChangesAsync();
+                return NoContent();
+            }
+            //add new rating
             _context.MovieRating.Add(movieRating);
             await _context.SaveChangesAsync();
-
             return CreatedAtAction("GetMovieRating", new { id = movieRating.MovieRatingId }, movieRating);
+           
         }
 
         // DELETE: api/MovieRatings/5
@@ -100,6 +111,20 @@ namespace MovieReviewAPI.Controllers
         private bool MovieRatingExists(int id)
         {
             return _context.MovieRating.Any(e => e.MovieRatingId == id);
+        }
+
+        private async Task<MovieRating> FindMovieRatingAndUser(string username,int movieId)
+        {
+            MovieRating movie = null;
+            try
+            {
+                movie = await _context.MovieRating.SingleAsync(e => e.UserName == username & e.MovieId == movieId);
+            }
+            catch
+            {
+                return null;
+            }
+            return movie;  
         }
     }
 }

@@ -26,6 +26,18 @@ namespace MovieReviewAPI.Services
             return list.OrderByDescending(x => x.DateCreated).ToList();
         }
 
+        public async Task<IEnumerable<Movie>> GetByTitle(string movieTitle)
+        {
+            List<Movie> list = await _context.Movie.Where(movie => movie.MovieTitle.Contains(movieTitle)).ToListAsync();
+            return list.OrderByDescending(x => x.DateCreated).ToList(); ;
+        }
+
+        public async Task<IEnumerable<Movie>> GetByActor(string movieActor)
+        {
+            List<Movie> list = await _context.Movie.Where(movie => movie.Actor.Contains(movieActor)).ToListAsync();
+            return list.OrderByDescending(x => x.DateCreated).ToList(); ;
+        }
+
 
         public async Task<Movie> GetById(int? MovieId)
         {

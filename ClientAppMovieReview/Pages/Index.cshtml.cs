@@ -19,9 +19,8 @@ namespace ClientAppMovieReview.Pages
         private string _apiUrl;
         private string _apiKey;
         public IEnumerable<Movie> Movies;
+        public IEnumerable<Movie> LatestMovies;
 
-        [BindProperty]
-        public SearchModel searchModel { get; set; }
 
         public IndexModel(IConfiguration iConfiguration) {
             _apiUrl = iConfiguration.GetSection("ApiUrl").Value;
@@ -30,7 +29,7 @@ namespace ClientAppMovieReview.Pages
         public async Task OnGetAsync()
         {
             _client.BaseAddress = new Uri(_apiUrl);
-            //_client.BaseAddress = new Uri("http://moviereviewapi-dev.us-east-1.elasticbeanstalk.com");
+         
             _client.DefaultRequestHeaders.Accept.Clear();
             _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             _client.DefaultRequestHeaders.Add("x-apikey", _apiKey);
@@ -45,6 +44,7 @@ namespace ClientAppMovieReview.Pages
                 {
                     json = await response.Content.ReadAsStringAsync();
                     Movies = JsonConvert.DeserializeObject<IEnumerable<Movie>>(json);
+                    LatestMovies = JsonConvert.DeserializeObject<IEnumerable<Movie>>(json);
                 }
                 else
                     Console.WriteLine("Internal Server error");
@@ -55,9 +55,55 @@ namespace ClientAppMovieReview.Pages
             }
         }
 
-        private void CleanTempData() {
-           /* TempData.Remove("successmsg");
-            TempData.Remove("errormsg"); */
+        public async Task OnPostSearchAsync() {
+            string type = Request.Form["type"];
+            string keyword = Request.Form["keyword"];
+
+            _client.BaseAddress = new Uri(_apiUrl);
+            _client.DefaultRequestHeaders.Accept.Clear();
+            _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            _client.DefaultRequestHeaders.Add("x-apikey", _apiKey);
+            try
+            {
+                string json;
+                HttpResponseMessage response;
+                string url = "";
+
+                //get all items
+                HttpResponseMessage responseMovies = await _client.GetAsync("moviereview/api/movies");
+
+                if (responseMovies.IsSuccessStatusCode)
+                {
+                    json = await responseMovies.Content.ReadAsStringAsync();
+                    LatestMovies = JsonConvert.DeserializeObject<IEnumerable<Movie>>(json);
+                }
+                else
+                    Console.WriteLine("Internal Server error");
+
+                if (type == "actor")
+                {
+                    url ="moviereview/api/movies/searchactor/" + keyword;
+                }
+                else if (type == "title")
+                {
+                    url = "moviereview/api/movies/searchtitle/" + keyword;
+                }
+                //get all items
+
+                response = await _client.GetAsync(url);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    json = await response.Content.ReadAsStringAsync();
+                    Movies = JsonConvert.DeserializeObject<IEnumerable<Movie>>(json);
+                }
+                else
+                    Console.WriteLine("Internal Server error");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
     }
 }

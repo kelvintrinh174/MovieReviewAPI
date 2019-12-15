@@ -40,7 +40,7 @@ namespace ClientAppMovieReview.Pages.Users
                 string json;
                 HttpResponseMessage response;
                 user.DateCreated = DateTime.Now.Date;
-                user.Role = "admin";
+                user.Role = "user";
                 json = JsonConvert.SerializeObject(user);
                 StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
                 response = await _client.PostAsync("moviereview/api/Users/PostUser", content);

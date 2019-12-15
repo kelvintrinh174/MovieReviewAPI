@@ -16,9 +16,8 @@ namespace MovieReviewAPI.Controllers
     [ApiController]
     public class MoviesController : ControllerBase
     {
-        //private readonly MovieAPIDbContext _context;
         private readonly IMovieRepository<Movie> _movieRepository;
-        //private readonly MovieRepository repository;
+        
         private readonly IMapper _mapper;
 
         public MoviesController(IMovieRepository<Movie> movieRepository,IMapper mapper)

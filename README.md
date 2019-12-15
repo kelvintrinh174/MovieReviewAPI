@@ -1,4 +1,4 @@
-# MovieReviewAPI
+# Movie Review
 ### ASP.Net Core Web API - Client: Razor Page
 
 ### Summary:
